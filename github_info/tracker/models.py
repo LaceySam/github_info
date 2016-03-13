@@ -38,11 +38,13 @@ class Repo(models.Model):
         cache_key = self.get_issue_cache_key(page)
         cached_resp = cache.get(cache_key)
         if cached_resp is not None:
-            return cached_resp
+            return cached_resp, True
 
         resp = requests.get(url)
-        payload = resp.json()
+        if not 200 <= resp.status_code < 300:
+            return {}, False
 
+        payload = resp.json()
         cache.set(cache_key, payload, settings.CACHE_LIFE_SPAN)
 
-        return payload
+        return payload, True

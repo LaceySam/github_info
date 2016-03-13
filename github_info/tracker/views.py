@@ -26,8 +26,11 @@ def tracker(request):
             if not created:
                 model_instance.save()
 
-            request_info['issues'] = model_instance.get_issues()
+            issues, ok = model_instance.get_issues()
+            request_info['issues'] = issues
             request_info['repo_name'] = form.cleaned_data['repo_name']
+            if not ok:
+                request_info['error'] = True
 
             return render(request, 'track.html', request_info)
 
@@ -46,7 +49,7 @@ def get_issue_batch(request):
             return HttpResponseBadRequest
 
         repo = repo[0]
-
-        return JsonResponse(repo.get_issues(int(page)+1), safe=False)
+        issues, _ = repo.get_issues(int(page)+1)
+        return JsonResponse(issues, safe=False)
 
     return HttpResponseBadRequest

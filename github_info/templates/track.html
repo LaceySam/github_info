@@ -18,6 +18,10 @@
       text-align: center;
     }
 
+    .unknown-repo {
+      color: red;
+    }
+
   </style>
   <script src="{% static "js/jquery.js" %}" type="text/javascript" %}></script>
   <script>
@@ -48,9 +52,12 @@
     <input type="submit" value="Go!" />
     </form>
 
-    {% if issues %}
+    {% if error %}
+        <p class="unknown-repo">{% trans "Unknown repo" %}</p>
+
+    {% elif issues %}
       <table id="issue-table" style="width:100%">
-         
+
         <tr>
           <th>Issue Number</th>
           <th>Date Created</th>
