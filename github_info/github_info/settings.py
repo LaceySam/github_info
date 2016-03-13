@@ -127,3 +127,8 @@ GITHUB_API_URI = 'api.github.com'
 
 GITHUB_API_REPO_URI = 'repos'
 GITHUB_API_ISSUES_URL = 'issues'
+
+DEFAULT_REPO = 'tangent-snowball/tangent-snowball'
+DEFAULT_FORM_SIZE = '50'
+DEFAULT_FORM_CHAR_LIMIT = 100
+
