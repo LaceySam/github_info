@@ -19,7 +19,7 @@ class Repo(models.Model):
     def get_issue_cache_key(self, page):
         return sha.new(self.repo_name + str(page)).hexdigest()
 
-    def get_issues(self, page=0):
+    def get_issues(self, page=1):
         url = urlparse.urlunparse((
             'https',
             settings.GITHUB_API_URI,

@@ -1,3 +1,6 @@
+{% load i18n %}
+{% load staticfiles %}
+
 <html>
   <style>
 
@@ -11,7 +14,31 @@
       padding: 5px;
     }
 
+    .load-more {
+      text-align: center;
+    }
+
   </style>
+  <script src="{% static "js/jquery.js" %}" type="text/javascript" %}></script>
+  <script>
+    var currentPage = 1;
+    $(function() {
+      $("#loadmore").click(function() {
+        var params = {current_page: currentPage, repo_name: "{{ repo_name }}"};
+        $.get('/get_issue_batch/', params, function(data) {
+          currentPage += 1;
+          for (i = 0; i < data.length; i++) {
+            $('#issue-table tr:last').prev().after(
+              '<tr><td>' + data[i].number + '</td><td>' + data[i].created_at + '</td><td>' +
+              data[i].user.login + '</td><td>' + data[i].title + '</td><td>' +
+              data[i].body.substring(0, 80) + '</td></tr>'
+            );
+          }
+        });
+      });
+    });
+
+  </script>
   <body>
     <p>Choose a repo to track issues for!</p>
 
@@ -22,8 +49,7 @@
     </form>
 
     {% if issues %}
-
-      <table style="width:100%">
+      <table id="issue-table" style="width:100%">
          
         <tr>
           <th>Issue Number</th>
@@ -40,12 +66,18 @@
             <td>{{ issue.user.login }}</td>
             <td>{{ issue.title }}</td>
             {% if issue.body %}
-              <td>{{ issue.body|slice:"80" }}...</td>
+              <td>{{ issue.body|slice:"80" }}{% trans "..." %}</td>
             {% else %}
               <td></td>
             {% endif %}
           </tr>
        {% endfor %}
+
+        <tr>
+          <td class="load-more" colspan="5">
+            <button id="loadmore" type="button">{% trans "Load more" %}</button>
+          </td>
+        </tr>
 
       </table>
 

@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from tracker import views as tracker_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', tracker_views.tracker),
+    url(r'^get_issue_batch/$', tracker_views.get_issue_batch),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
