@@ -9,4 +9,13 @@ github.
 
 ## Setup
 
-git clone http://github.com/Laceysam/github_info.git
+git clone https://github.com/Laceysam/github_info.git <br />
+virtualenv env <br />
+source env/bin/activate <br />
+pip install -r requirements.txt <br />
+cd github_info <br />
+python manage.py migrate <br />
+python manage.py test <br />
+python manage.py runserver <br />
+
+Then navigate to localhost:8000 and play around!
