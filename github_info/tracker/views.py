@@ -9,6 +9,9 @@ from models import Repo
 
 
 def tracker(request):
+    """
+    The tracker view, gets the first 20 items from the github issue api
+    """
     request_info = {
         'repo_form': forms.RepoForm()
     }
@@ -32,6 +35,9 @@ def tracker(request):
 
 
 def get_issue_batch(request):
+    """
+    The get_issue_batch view gets the next 20 items from the github issue api
+    """
     if request.method == "GET":
         repo_name = request.GET['repo_name']
         page = request.GET['current_page']

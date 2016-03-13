@@ -40,7 +40,9 @@ class Repo(models.Model):
         if cached_resp is not None:
             return cached_resp
 
-        resp = requests.get(url).json()
-        cache.set(cache_key, resp, settings.CACHE_LIFE_SPAN)
+        resp = requests.get(url)
+        payload = resp.json()
 
-        return resp
+        cache.set(cache_key, payload, settings.CACHE_LIFE_SPAN)
+
+        return payload
