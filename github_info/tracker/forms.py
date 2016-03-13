@@ -1,15 +1,29 @@
 from django import forms
-
 from django.conf import settings
 
-class RepoForm(forms.Form):
-    repo_name = forms.CharField(
-        label='Repo Name',
-        max_length=settings.DEFAULT_FORM_CHAR_LIMIT,
-        widget=forms.TextInput(
-            attrs={
-                'size': settings.DEFAULT_FORM_SIZE,
-                'placeholder': settings.DEFAULT_REPO
-            }
-        )
-    )
+import models
+
+
+class RepoForm(forms.ModelForm):
+    class Meta:
+        model = models.Repo
+        fields = ['repo_name']
+        widgets={
+            'repo_name': forms.TextInput(
+                attrs={
+                    'size': settings.DEFAULT_FORM_SIZE,
+                    'placeholder': settings.DEFAULT_REPO
+                }
+            )
+        }
+
+    def clean_repo_name(self):
+        repo_name = self.cleaned_data['repo_name']
+
+        if repo_name == '':
+            repo_name = settings.DEFAULT_REPO
+
+        if not repo_name.endswith('/'):
+            repo_name = repo_name + '/'
+
+        return repo_name            

@@ -1,7 +1,55 @@
-<p>Choose a repo to find more about!</p>
+<html>
+  <style>
 
-<form action="/" method="post">
-     {% csrf_token %}
-     {{ repo_form }}
-     <input type="submit" value="Go!" />
-</form>
+    table, th, td {
+      text-align: left;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 5px;
+    }
+
+  </style>
+  <body>
+    <p>Choose a repo to track issues for!</p>
+
+    <form action="/" method="post">
+      {% csrf_token %}
+      {{ repo_form }}
+    <input type="submit" value="Go!" />
+    </form>
+
+    {% if issues %}
+
+      <table style="width:100%">
+         
+        <tr>
+          <th>Issue Number</th>
+          <th>Date Created</th>
+          <th>User Name</th>
+          <th>Title</th>
+          <th>Summary</th>
+        </tr>
+
+        {% for issue in issues %}
+          <tr>
+            <td>{{ issue.number }}</td>
+            <td>{{ issue.created_at }}</td>
+            <td>{{ issue.user.login }}</td>
+            <td>{{ issue.title }}</td>
+            {% if issue.body %}
+              <td>{{ issue.body|slice:"80" }}...</td>
+            {% else %}
+              <td></td>
+            {% endif %}
+          </tr>
+       {% endfor %}
+
+      </table>
+
+    {% endif %}
+
+  </body>
+</html>
