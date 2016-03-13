@@ -7,6 +7,7 @@ import urllib
 import forms
 from models import Repo
 
+
 def tracker(request):
     request_info = {
         'repo_form': forms.RepoForm()
@@ -29,6 +30,7 @@ def tracker(request):
 
     return render(request, 'track.html', request_info)
 
+
 def get_issue_batch(request):
     if request.method == "GET":
         repo_name = request.GET['repo_name']
@@ -38,7 +40,7 @@ def get_issue_batch(request):
             return HttpResponseBadRequest
 
         repo = repo[0]
-        
+
         return JsonResponse(repo.get_issues(int(page)+1), safe=False)
 
     return HttpResponseBadRequest

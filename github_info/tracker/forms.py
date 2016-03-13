@@ -8,7 +8,7 @@ class RepoForm(forms.ModelForm):
     class Meta:
         model = models.Repo
         fields = ['repo_name']
-        widgets={
+        widgets = {
             'repo_name': forms.TextInput(
                 attrs={
                     'size': settings.DEFAULT_FORM_SIZE,
@@ -26,4 +26,4 @@ class RepoForm(forms.ModelForm):
         if not repo_name.endswith('/'):
             repo_name = repo_name + '/'
 
-        return repo_name            
+        return repo_name
