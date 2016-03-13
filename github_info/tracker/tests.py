@@ -15,6 +15,7 @@ class RepoTestCase(TestCase):
 
     req_mock = MagicMock()
     req_mock.json = MagicMock(return_value=test_cache_value)
+    req_mock.status_code = 200
 
     def setUp(self):
         Repo.objects.create(repo_name=self.test_name)
@@ -49,6 +50,6 @@ class RepoTestCase(TestCase):
         cache
         """
         repo = Repo.objects.get(repo_name=self.test_name)
-        got = repo.get_issues()
+        got, _ = repo.get_issues()
 
         self.assertEqual(got, self.test_cache_value)
